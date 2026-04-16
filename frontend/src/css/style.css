@@ -246,3 +246,198 @@ tr:hover {
 .card-blue { border-left-color: #3498db; }
 .card-green { border-left-color: #27ae60; }
 .card-yellow { border-left-color: #f1c40f; }
+/* Thêm màu cho thẻ Đã hết hạn */
+.card-red { 
+    border-left-color: #e74c3c !important; 
+}
+
+/* Tùy chỉnh thêm để icon thẻ đỏ trông nổi bật hơn */
+.card-red .stat-icon {
+    background: #fdf2f2;
+}
+
+/* --- FILTER BAR --- */
+.filter-bar {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-input {
+    min-width: 300px;
+}
+
+.status-tag {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tag-red { background: #fdeaea; color: #e74c3c; }
+.tag-yellow { background: #fff8e1; color: #f39c12; }
+.tag-green { background: #e8f5e9; color: #27ae60; }
+
+/* Hiệu ứng màu cho dòng trong bảng */
+.row-expired { background-color: #fff5f5 !important; }
+.row-warning { background-color: #fffdf5 !important; }
+
+.filter-stats {
+    margin-left: auto;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+
+/* Toolbar & View Switcher */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.view-switcher button {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+    margin-left: 5px;
+}
+.view-switcher button.active {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+/* Card Grid Layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.med-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+.med-card:hover { transform: translateY(-5px); }
+.med-card img { width: 100%; height: 180px; object-fit: cover; }
+.card-body { padding: 15px; }
+.category-tag { font-size: 10px; color: var(--secondary-color); font-weight: bold; text-transform: uppercase; }
+.med-card h4 { margin: 10px 0; color: var(--primary-color); }
+.desc { font-size: 13px; color: #7f8c8d; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.card-info { margin: 15px 0; }
+.price { font-size: 1.2rem; font-weight: bold; color: var(--danger-color); }
+.card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 10px; }
+
+/* Image Mini in Table */
+.img-mini {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+textarea.full-width {
+    grid-column: 1 / -1;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Ảnh nhỏ trong bảng */
+.img-mini { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; }
+
+/* Textarea trải rộng */
+.full-width { grid-column: 1 / -1; }
+textarea { padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px; }
+
+/* View Switcher */
+.view-switcher button { background: #fff; color: #555; border: 1px solid #ddd; margin-left: 5px; }
+.view-switcher button.active { background: #3498db; color: white; border-color: #3498db; }
+
+/* Card Grid */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.med-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; position: relative; }
+.med-card:hover { transform: translateY(-5px); }
+.card-image img { width: 100%; height: 260px; object-fit: cover; }
+.card-content { padding: 15px; }
+.card-desc { font-size: 13px; color: #7f8c8d; height: 40px; overflow: hidden; margin: 10px 0; }
+.card-price { font-size: 1.2rem; font-weight: bold; color: #e74c3c; margin-bottom: 15px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 10px; }
+
+/* Modal Detail Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    max-width: 700px;
+    width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.modal-body-detail {
+    display: flex;
+    gap: 25px;
+}
+
+.modal-img-container img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-info-detail { flex: 1; }
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.modal-desc-full {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 6px;
+    line-height: 1.5;
+}
