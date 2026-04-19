@@ -220,7 +220,10 @@ const Medicines = () => {
                         <div className="med-card" key={med._id} onClick={() => handleOpenModal(med)} style={{cursor: 'pointer'}}>
                             <div className="card-image">
                                 <img src={med.image || 'https://via.placeholder.com/150'} alt={med.name} />
-                                <span className={`card-tag ${new Date(med.expiryDate) < new Date() ? 'tag-red' : ''}`}>
+                                <span className={`card-tag ${
+                                    new Date(med.expiryDate) < new Date() ? 'tag-red' : 
+                                    new Date(med.expiryDate) <= new Date(new Date().setDate(new Date().getDate() + 30)) ? 'tag-yellow' : ''
+                                }`}>
                                     {med.category}
                                 </span>
                             </div>

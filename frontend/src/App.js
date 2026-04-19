@@ -1,16 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import DarkModeToggle from './components/DarkModeToggle'; 
 import Dashboard from './pages/Dashboard';
 import Medicines from './pages/Medicines';
 import Suppliers from './pages/Suppliers';
-import './css/style.css'; // Import file CSS đã thiết kế ở bước trước
+import './css/style.css'; 
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Navbar />
+
+        <DarkModeToggle />
+
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />

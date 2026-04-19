@@ -19,7 +19,7 @@ const Dashboard = () => {
         const medicines = resMed.data;
         const now = new Date();
         const thirtyDaysFromNow = new Date();
-        thirtyDaysFromNow.setDate(now.getDate() + 30); // Ngưỡng 30 ngày để cảnh báo
+        thirtyDaysFromNow.setDate(now.getDate() + 30); 
 
         let expiredCount = 0;
         let nearExpiryCount = 0;
@@ -49,8 +49,10 @@ const Dashboard = () => {
   return (
     <div className="container">
       <div className="header-section">
-        <h2>📊 Tổng quan Hệ thống</h2>
-        <p>Tình trạng kho thuốc cập nhật đến ngày {new Date().toLocaleDateString('vi-VN')}</p>
+        <h2 style={{ borderBottom: 'none', marginBottom: '5px' }}>📊 Tổng quan Hệ thống</h2>
+        <p style={{ color: '#7f8c8d', marginBottom: '30px' }}>
+          Tình trạng kho thuốc cập nhật đến ngày {new Date().toLocaleDateString('vi-VN')}
+        </p>
       </div>
 
       <div className="dashboard-grid">
@@ -60,7 +62,8 @@ const Dashboard = () => {
           <div className="stat-content">
             <h3>Tổng số loại thuốc</h3>
             <p className="stat-number">{stats.totalMedicines}</p>
-            <Link to="/medicines" className="stat-link">Xem danh sách →</Link>
+            {/* Đã thay đổi style link ở đây */}
+            <Link to="/medicines" className="stat-link">Xem danh sách</Link>
           </div>
         </div>
 
@@ -70,17 +73,20 @@ const Dashboard = () => {
           <div className="stat-content">
             <h3>Nhà cung cấp</h3>
             <p className="stat-number">{stats.totalSuppliers}</p>
-            <Link to="/suppliers" className="stat-link">Quản lý đối tác →</Link>
+            {/* Đã thay đổi style link ở đây */}
+            <Link to="/suppliers" className="stat-link">Quản lý đối tác</Link>
           </div>
         </div>
 
-        {/* Thẻ 3: Sắp hết hạn (Dưới 30 ngày) */}
+        {/* Thẻ 3: Sắp hết hạn */}
         <div className="stat-card card-yellow">
           <div className="stat-icon">⏳</div>
           <div className="stat-content">
             <h3>Sắp hết hạn</h3>
             <p className="stat-number">{stats.nearExpiry}</p>
-            <span className="stat-info" style={{color: '#f39c12'}}>Cần nhập hàng mới</span>
+            <span className="stat-info warning-text">
+              Cần nhập hàng mới
+            </span>
           </div>
         </div>
 
@@ -89,14 +95,16 @@ const Dashboard = () => {
           <div className="stat-icon">❌</div>
           <div className="stat-content">
             <h3>Đã hết hạn</h3>
-            <p className="stat-number" style={{color: '#e74c3c'}}>{stats.expired}</p>
-            <span className="stat-info" style={{color: '#e74c3c'}}>Cần tiêu hủy ngay</span>
+            <p className="stat-number danger-text">{stats.expired}</p>
+            <span className="stat-info danger-text">
+              Cần tiêu hủy ngay
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="dashboard-footer" style={{ marginTop: '40px', textAlign: 'center', color: '#7f8c8d' }}>
-        <p>© 2026 Pharmacy Management System - Cao Hoài Sang</p>
+      <div className="dashboard-footer" style={{ marginTop: '60px', textAlign: 'center', opacity: 0.7 }}>
+        <p>© 2026 Pharmacy Management System - {new Date().getFullYear()}</p>
       </div>
     </div>
   );
