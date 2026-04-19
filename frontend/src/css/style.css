@@ -53,7 +53,7 @@ h2 {
     gap: 15px;
 }
 
-input, select {
+input, select, textarea {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -61,7 +61,7 @@ input, select {
     transition: all 0.3s;
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--secondary-color);
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
@@ -254,12 +254,43 @@ tr:hover {
     }
 }
 
-/* --- DASHBOARD SPECIFIC --- */
+/* --- 2. DASHBOARD SPECIFIC (YÊU CẦU CHÍNH) --- */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
     margin-top: 20px;
+}
+
+/* --- STYLE CHO LINK TRONG DASHBOARD CARD --- */
+.stat-link {
+    text-decoration: none !important; /* Xóa dấu gạch chân */
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 12px;
+    background: rgba(52, 152, 219, 0.1); /* Nền nhạt tạo cảm giác như nút */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.stat-link:hover {
+    background: var(--secondary-color);
+    color: white !important;
+    transform: translateX(5px); /* Hiệu ứng dịch chuyển nhẹ thay vì dấu mũi tên cũ */
+}
+
+/* --- FIX MÀU CHỮ CẢNH BÁO TRÊN CARD --- */
+.warning-text {
+    color: #f39c12 !important;
+    font-weight: bold;
+}
+
+.danger-text {
+    color: #e74c3c !important;
+    font-weight: bold;
 }
 
 .stat-card {
@@ -271,7 +302,11 @@ tr:hover {
     gap: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 8px solid #ddd;
+    /* Thanh màu trái mỏng 6px tinh tế */
+    border-left: 6px solid #ddd !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
 }
 
 .stat-card:hover {
@@ -304,32 +339,143 @@ tr:hover {
     color: var(--primary-color);
 }
 
-.stat-link {
-    text-decoration: none;
+/* Màu sắc dải màu trái cho từng loại thẻ */
+.card-blue { border-left-color: #3498db !important; }
+.card-green { border-left-color: #27ae60 !important; }
+.card-yellow { border-left-color: #f1c40f !important; }
+.card-red { border-left-color: #e74c3c !important; }
+
+.card-red .stat-icon { background: #fdf2f2; }
+
+/* --- 3. FORM & TABLE (QUẢN LÝ THUỐC) --- */
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+input, select, textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th { background-color: var(--primary-color); color: white; padding: 15px; text-align: left; }
+td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+
+/* Dòng cảnh báo trong bảng */
+.row-expired { background-color: #fff5f5 !important; }
+.row-warning { background-color: #fffdf5 !important; }
+
+/* --- 4. DARK MODE HÀN CHỈNH --- */
+.dark-mode {
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --border-color: #334155;
+}
+
+.dark-mode body { background-color: var(--bg-color); color: var(--text-color); }
+
+.dark-mode .form-container, 
+.dark-mode .table-container, 
+.dark-mode .stat-card, 
+.dark-mode .med-card,
+.dark-mode .modal-content,
+.dark-mode .filter-bar {
+    background-color: #1e293b !important;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode input, .dark-mode select, .dark-mode textarea {
+    background-color: #0f172a;
+    border-color: var(--border-color);
+    color: white;
+}
+
+.dark-mode .stat-number { color: #f1f5f9; }
+.dark-mode .stat-content h3 { color: #94a3b8; }
+.dark-mode tr:hover { background-color: #334155; }
+
+
+/* --- FIX MÔ TẢ TRONG MODAL CHO DARK MODE --- */
+.dark-mode .modal-desc-full {
+    background-color: #0f172a !important; /* Nền tối hơn card một chút */
+    color: #cbd5e1 !important;           /* Màu chữ xám trắng dễ đọc */
+    border: 1px solid #334155;          /* Viền mờ để phân tách phần mô tả */
+    padding: 12px;
+    border-radius: 8px;
+}
+
+/* Đảm bảo tiêu đề "Mô tả:" cũng nổi bật */
+.dark-mode .modal-desc-full strong {
     color: var(--secondary-color);
-    font-size: 0.9rem;
-    font-weight: 600;
 }
 
-.stat-info {
-    font-size: 0.85rem;
-    color: var(--danger-color);
-    font-weight: 500;
+/* Fix luôn màu cho các text trong Modal Info */
+.dark-mode .modal-info-detail h2 {
+    color: #f1f5f9;
 }
 
-/* Màu sắc riêng cho từng thẻ */
-.card-blue { border-left-color: #3498db; }
-.card-green { border-left-color: #27ae60; }
-.card-yellow { border-left-color: #f1c40f; }
-/* Thêm màu cho thẻ Đã hết hạn */
-.card-red { 
-    border-left-color: #e74c3c !important; 
+.dark-mode .modal-info-detail p {
+    color: #94a3b8;
 }
 
-/* Tùy chỉnh thêm để icon thẻ đỏ trông nổi bật hơn */
-.card-red .stat-icon {
-    background: #fdf2f2;
+.dark-mode .modal-info-detail hr {
+    border-color: #334155;
+    opacity: 0.5;
 }
+
+/* --- 5. FLOATING TOGGLE (NÚT CHUYỂN CHẾ ĐỘ) --- */
+.floating-toggle-container {
+    position: fixed;
+    right: 0;
+    display: flex;
+    align-items: center;
+    background: #1e293b;
+    border: 2px solid var(--secondary-color);
+    border-right: none;
+    border-radius: 30px 0 0 30px;
+    padding: 8px;
+    z-index: 9999;
+    cursor: grab;
+    transition: 0.3s;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+}
+
+.floating-toggle-container.hidden { transform: translateX(calc(100% - 30px)); }
+
+.toggle-main {
+    width: 40px;
+    height: 40px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.dark-mode .floating-toggle-container { background: #334155; }
 
 /* --- FILTER BAR --- */
 .filter-bar {
@@ -449,6 +595,53 @@ textarea { padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-height
 .card-price { font-size: 1.2rem; font-weight: bold; color: #e74c3c; margin-bottom: 15px; }
 .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 10px; }
 
+/* --- STYLE MỚI CHO TAG TRÊN ẢNH (CARD) --- */
+.card-image {
+    position: relative; /* Đảm bảo tag định vị theo ảnh */
+}
+
+.card-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+    
+    /* Hiệu ứng kính mờ (Glassmorphism) mặc định */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+}
+
+/* Khi thuốc ĐÃ HẾT HẠN - Màu đỏ nổi bật */
+.card-tag.tag-red {
+    background: rgba(231, 76, 60, 0.9) !important;
+    color: white !important;
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* Khi thuốc SẮP HẾT HẠN - Màu vàng cảnh báo */
+.card-tag.tag-yellow {
+    background: rgba(241, 196, 15, 0.9) !important;
+    color: #2c3e50 !important;
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* Chế độ tối: Làm tag trông sâu hơn */
+.dark-mode .card-tag:not(.tag-red):not(.tag-yellow) {
+    background: rgba(30, 41, 59, 0.8);
+    color: #f1f5f9;
+    border-color: rgba(255,255,255,0.1);
+}
+
 /* Modal Detail Styles */
 .modal-overlay {
     position: fixed;
@@ -515,4 +708,112 @@ textarea { padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-height
     padding: 10px;
     border-radius: 6px;
     line-height: 1.5;
+}
+
+/* --- TỐI ƯU DARK MODE CHO CÁC PHẦN TRÊN --- */
+.dark-mode .stat-card {
+    background-color: #1e293b !important;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    /* Dải màu trái trong dark mode giữ nguyên nhưng làm sáng màu border nếu cần */
+}
+
+.dark-mode .stat-number {
+    color: #f1f5f9;
+}
+
+.dark-mode .stat-content h3 {
+    color: #94a3b8;
+}
+
+/* --- HIỆU CHỈNH DÒNG CẢNH BÁO TRONG BẢNG (DARK MODE) --- */
+.dark-mode .row-expired { 
+    background-color: rgba(231, 76, 60, 0.2) !important; 
+    color: #ff8a80;
+}
+.dark-mode .row-warning { 
+    background-color: rgba(243, 156, 18, 0.2) !important; 
+    color: #ffd180;
+}
+
+/* Áp dụng Dark Mode */
+.dark-mode body { background-color: var(--bg-color); color: var(--text-color); }
+.dark-mode .form-container, 
+.dark-mode .table-container, 
+.dark-mode .stat-card, 
+.dark-mode .med-card,
+.dark-mode .modal-content,
+.dark-mode .filter-bar {
+    background-color: var(--form-bg) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode input, .dark-mode select, .dark-mode textarea {
+    background-color: #0f172a;
+    border-color: var(--border-color);
+    color: white;
+}
+
+.dark-mode tr:hover { background-color: #334155; }
+.dark-mode td { border-bottom-color: var(--border-color); }
+
+/* --- NÚT CHUYỂN ĐỔI NỔI (FLOATING TOGGLE) --- */
+.floating-toggle-container {
+    position: fixed;
+    right: 0;
+    display: flex;
+    align-items: center;
+    background: #1e293b;
+    border: 2px solid var(--secondary-color);
+    border-right: none;
+    border-radius: 30px 0 0 30px;
+    padding: 8px;
+    z-index: 9999;
+    cursor: grab;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+    user-select: none;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+}
+
+.floating-toggle-container.dragging { cursor: grabbing; transition: none; }
+.floating-toggle-container.hidden { transform: translateX(calc(100% - 30px)); }
+
+.toggle-main {
+    width: 40px;
+    height: 40px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.arrow-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 16px;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Thêm dòng này để xoay icon khi container có class hidden */
+.floating-toggle-container.hidden .arrow-btn { 
+    transform: rotate(180deg);
+}
+
+/* Đảm bảo nút arrow-btn có transition để xoay mượt */
+.arrow-btn {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.dark-mode .floating-toggle-container {
+    background: #334155;
 }
