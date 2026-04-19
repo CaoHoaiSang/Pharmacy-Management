@@ -5,7 +5,8 @@ const API_URL = 'http://localhost:5001/Pharmacy-Management/Supplier';
 
 const Suppliers = () => {
     const [suppliers, setSuppliers] = useState([]);
-    const [formData, setFormData] = useState({ name: '', phone: '', address: '' });
+    // Cập nhật formData thêm trường email
+    const [formData, setFormData] = useState({ name: '', phone: '', email: '', address: '' });
     const [isEditing, setIsEditing] = useState(false);
     const [currentId, setCurrentId] = useState(null);
 
@@ -28,13 +29,20 @@ const Suppliers = () => {
     };
 
     const resetForm = () => {
-        setFormData({ name: '', phone: '', address: '' });
+        // Reset email về trống
+        setFormData({ name: '', phone: '', email: '', address: '' });
         setIsEditing(false);
         setCurrentId(null);
     };
 
     const prepareEdit = (sup) => {
-        setFormData({ name: sup.name, phone: sup.phone, address: sup.address || '' });
+        // Gán giá trị email vào form khi sửa
+        setFormData({ 
+            name: sup.name, 
+            phone: sup.phone, 
+            email: sup.email || '', 
+            address: sup.address || '' 
+        });
         setIsEditing(true);
         setCurrentId(sup._id);
         window.scrollTo(0, 0);
@@ -57,8 +65,14 @@ const Suppliers = () => {
                     <div className="grid-form">
                         <input type="text" placeholder="Tên nhà cung cấp" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
                         <input type="text" placeholder="Số điện thoại" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required />
+                        {/* TRƯỜNG MỚI: Nhập Email */}
+                        <input type="email" placeholder="Email liên hệ" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                         <input type="text" placeholder="Địa chỉ" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
-                        <button type="submit" className="btn-save">{isEditing ? 'Cập nhật' : 'Lưu nhà cung cấp'}</button>
+                        
+                        <div className="form-actions" style={{ gridColumn: '1 / -1' }}>
+                            <button type="submit" className="btn-save">{isEditing ? 'Cập nhật' : 'Lưu nhà cung cấp'}</button>
+                            {isEditing && <button type="button" onClick={resetForm} className="btn-delete" style={{marginLeft: '10px'}}>Hủy</button>}
+                        </div>
                     </div>
                 </form>
             </div>
@@ -69,6 +83,7 @@ const Suppliers = () => {
                         <tr>
                             <th>Tên Công Ty</th>
                             <th>Điện thoại</th>
+                            <th>Email</th> {/* CỘT MỚI: Email */}
                             <th>Địa chỉ</th>
                             <th>Thao tác</th>
                         </tr>
@@ -76,8 +91,10 @@ const Suppliers = () => {
                     <tbody>
                         {suppliers.map(sup => (
                             <tr key={sup._id}>
-                                <td>{sup.name}</td>
+                                <td><strong>{sup.name}</strong></td>
                                 <td>{sup.phone}</td>
+                                {/* HIỂN THỊ EMAIL */}
+                                <td>{sup.email || <i style={{color: '#ccc'}}>Chưa cập nhật</i>}</td>
                                 <td>{sup.address || 'N/A'}</td>
                                 <td>
                                     <button onClick={() => prepareEdit(sup)} className="btn-edit">Sửa</button>
