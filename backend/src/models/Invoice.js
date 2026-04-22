@@ -5,44 +5,46 @@ const invoiceSchema = new mongoose.Schema(
         invoiceId: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
+            trim: true,
         },
         customerId: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Customer",
-            required: true
+            required: true,
         },
         invoiceDate: {
             type: Date,
-            default: Date.now
+            default: Date.now,
         },
         items: [
             {
                 medicineId: {
-                    type: String,
+                    type: mongoose.Schema.Types.ObjectId,
                     ref: "Medicine",
-                    required: true
+                    required: true,
                 },
                 quantity: {
                     type: Number,
-                    required: true
+                    required: true,
                 },
                 price: {
                     type: Number,
-                    required: true
+                    required: true,
                 },
                 subtotal: {
                     type: Number,
-                    required: true
-                }
-            }
+                    required: true,
+                },
+            },
         ],
         totalAmount: {
             type: Number,
-            required: true
-        }
-    }, {timestamps: true}
-)
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
 
 const Invoice = mongoose.model("Invoice", invoiceSchema);
 export default Invoice;

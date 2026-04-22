@@ -1,20 +1,21 @@
-import express from 'express';
+import express from "express";
 import {
-    getMedicines,
-    createMedicine,
-    updateMedicine,
-    deleteMedicine,
-    importStock
-} from '../controllers/medicineController.js';
+  getMedicines,
+  createMedicine,
+  updateMedicine,
+  deleteMedicine,
+  importStock,
+} from "../controllers/medicineController.js";
+import { authenticate, authorizeRoles } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get('/', getMedicines);           // Đọc
-router.post('/', createMedicine);        // Thêm
-router.put('/:id', updateMedicine);      // Sửa
-router.delete('/:id', deleteMedicine);   // Xóa
+router.use(authenticate);
 
-router.patch('/:id/import', importStock);
-
+router.get("/", getMedicines);
+router.post("/", authorizeRoles("admin", "warehouse"), createMedicine);
+router.put("/:id", authorizeRoles("admin", "warehouse"), updateMedicine);
+router.delete("/:id", authorizeRoles("admin", "warehouse"), deleteMedicine);
+router.patch("/:id/import", authorizeRoles("admin", "warehouse"), importStock);
 
 export default router;

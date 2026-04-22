@@ -1,63 +1,80 @@
 import Customer from "../models/Customer.js";
 
-export const getAllCustomer = async(req, res) => {
+const generateCustomerCode = async () => {
+    const customers = await Customer.find({
+        customerId: { $regex: /^KH\d+$/ }
+    }).select("customerId").lean();
+
+    const maxCode = customers.reduce((max, customer) => {
+        const numericPart = Number(customer.customerId.replace("KH", ""));
+        return Number.isNaN(numericPart) ? max : Math.max(max, numericPart);
+    }, 0);
+
+    return `KH${String(maxCode + 1).padStart(3, "0")}`;
+};
+
+export const getAllCustomer = async (req, res) => {
     try {
-        const customer = await Customer.find().sort({createdAt: -1});
-        res.status(201).json(customer); 
+        const customers = await Customer.find();
+        res.status(200).json(customers);
     } catch (error) {
         console.error("Lỗi khi gọi getAllCustomer", error);
-        res.status(500).json({message: "Lỗi hệ thống"})
+        res.status(500).json({ message: "Lỗi hệ thống" });
     }
-}
+};
 
-export const createCustomer = async(req, res) => {
+export const createCustomer = async (req, res) => {
     try {
-        const {customerId, name, phone, email, address} = req.body;
-        const customer = new Customer({customerId, name, phone, email, address});
+        const { customerId, name, phone, email, address } = req.body;
 
-        const newCustomer = await customer.save();
-        res.status(201).json(newCustomer);
+        const newCustomer = new Customer({
+            customerId: customerId?.trim() || await generateCustomerCode(),
+            name,
+            phone,
+            email,
+            address,
+        });
+
+        const savedCustomer = await newCustomer.save();
+        res.status(201).json(savedCustomer);
     } catch (error) {
-        console.error("Lỗi khi gọi creatCustomer", error);
-        res.status(500).json({message: "Lỗi hệ thống"})
+        console.error("Lỗi khi gọi createCustomer", error);
+        res.status(400).json({ message: error.message || "Lỗi hệ thống" });
     }
-}
+};
 
-export const updateCustomer = async(req, res) => {
+export const updateCustomer = async (req, res) => {
     try {
-        const {name, phone, email, address} = req.body;
-        const updateCustomer = await Customer.findOneAndUpdate(
-            {customerId: req.params.customerId},
-            {
-                name,
-                phone, 
-                email,
-                address
-            },
-            {new: true}
+        const { name, phone, email, address } = req.body;
+
+        const updatedCustomer = await Customer.findByIdAndUpdate(
+            req.params.id,
+            { name, phone, email, address },
+            { new: true, runValidators: true }
         );
 
-        if(!updateCustomer){
-            return res.status(401).json({message: "Khách hàng không tồn tại"})
+        if (!updatedCustomer) {
+            return res.status(404).json({ message: "Khách hàng không tồn tại" });
         }
-        res.status(200).json({message: "Khách hàng đã được cập nhật thành công"})
-    } catch (error) {
-         console.error("Lỗi khi gọi updateCustomer", error);
-        res.status(500).json({message: "Lỗi hệ thống"})
-    }
-}
 
-export const deleteCustomer = async(req, res) => {
+        res.status(200).json(updatedCustomer);
+    } catch (error) {
+        console.error("Lỗi khi gọi updateCustomer", error);
+        res.status(400).json({ message: error.message || "Lỗi hệ thống" });
+    }
+};
+
+export const deleteCustomer = async (req, res) => {
     try {
-        const deleteCustomer = await Customer.findOneAndDelete({customerId: req.params.customerId});
-        if(!deleteCustomer){
-             return res.status(401).json({message: "Khách hàng không tồn tại"})
-        }
-        
-        res.status(200).json({message: "Khách hàng đã được xóa thành công"})
+        const deletedCustomer = await Customer.findByIdAndDelete(req.params.id);
 
+        if (!deletedCustomer) {
+            return res.status(404).json({ message: "Khách hàng không tồn tại" });
+        }
+
+        res.status(200).json({ message: "Khách hàng đã được xóa thành công" });
     } catch (error) {
-         console.error("Lỗi khi gọi deleteCustomer", error);
-        res.status(500).json({message: "Lỗi hệ thống"})
+        console.error("Lỗi khi gọi deleteCustomer", error);
+        res.status(500).json({ message: "Lỗi hệ thống" });
     }
-}
+};

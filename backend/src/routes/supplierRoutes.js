@@ -1,11 +1,19 @@
-import express from 'express';
-import { getSuppliers, createSupplier, updateSupplier, deleteSupplier } from '../controllers/supplierController.js';
+import express from "express";
+import {
+  getSuppliers,
+  createSupplier,
+  updateSupplier,
+  deleteSupplier,
+} from "../controllers/supplierController.js";
+import { authenticate, authorizeRoles } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get('/', getSuppliers);
-router.post('/', createSupplier);
-router.put('/:id', updateSupplier);
-router.delete('/:id', deleteSupplier);
+router.use(authenticate);
+
+router.get("/", getSuppliers);
+router.post("/", authorizeRoles("admin", "warehouse"), createSupplier);
+router.put("/:id", authorizeRoles("admin", "warehouse"), updateSupplier);
+router.delete("/:id", authorizeRoles("admin", "warehouse"), deleteSupplier);
 
 export default router;
